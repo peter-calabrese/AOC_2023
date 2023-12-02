@@ -19,11 +19,9 @@ var data = fs.readFileSync('data.txt', 'utf-8').split('\n')
 data.forEach(element=>{
     var temp ='';
     for(var i = 0; i < element.length; i++){
-        for(var j = i; j <=5 +i ; j++){
+        for(var j = i; j <=5+i; j++){
             if(map[element.substring(i,j)]){
-
-               temp = element.replace(element.substring(i,j), map[element.substring(i,j)])
-               element = temp
+               element = element.replace(element.substring(i,j), map[element.substring(i,j)] + element.substring(i,j).slice(-1))
 
             }
         }
@@ -41,4 +39,4 @@ charArray.forEach(item =>{
  console.log(sum)
 
 
- 
+//  53539
