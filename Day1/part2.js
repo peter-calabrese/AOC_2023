@@ -17,19 +17,28 @@ var sum=0
 var data = fs.readFileSync('data.txt', 'utf-8').split('\n')
 
 data.forEach(element=>{
-    var temp=[];
-    var original = element
-    for (var key in map){
-       temp=element.replaceAll(key,map[key])
-       element = temp
-    console.log(element)
- }
-    console.log({element: original, replaced: temp})
+    var temp ='';
+    for(var i = 0; i < element.length; i++){
+        for(var j = i; j <=5 +i ; j++){
+            if(map[element.substring(i,j)]){
+
+               temp = element.replace(element.substring(i,j), map[element.substring(i,j)])
+               element = temp
+
+            }
+        }
+    }
+    
+    charArray.push(element.split('').filter(element => parseInt(element)==element))
+
 })
 
-// charArray.forEach(item =>{
-//    var num = item[0].toString() + item.pop().toString()
-//    sum+= parseInt(num)
-// })
+charArray.forEach(item =>{
+    var num = item[0].toString() + item.pop().toString()
+    sum+= parseInt(num)
+ })
+ 
+ console.log(sum)
 
-console.log(sum)
+
+ 
