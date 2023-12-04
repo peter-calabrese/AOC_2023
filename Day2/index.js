@@ -49,6 +49,31 @@ function partOne(games) {
   return sum;
 }
 
-function partTwo(data) {
-  return "part2";
+function partTwo(games) {
+  var gameId = 0;
+  var sum = 0;
+  games.map((game) => {
+    gameId++;
+    var gameNotPossible = false;
+    game.split(";").forEach((subGame) => {
+      subGame.split(",").forEach((pull) => {
+        [tmp, count, color] = pull.replace("\r", "").split(" ");
+        if (color === "red" && count > maxRed) {
+          gameNotPossible = true;
+          return;
+        }
+        if (color === "green" && count > maxGreen) {
+          gameNotPossible = true;
+          return;
+        }
+        if (color === "blue" && count > maxBlue) {
+          gameNotPossible = true;
+          return;
+        }
+      });
+      if (gameNotPossible) {
+        return;
+      }
+    });
+  });
 }
