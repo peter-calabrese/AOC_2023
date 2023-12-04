@@ -1,44 +1,52 @@
 const fs = require("fs");
 
-fs.readFile("testInput.txt", "utf-8", (err, data) => {
+fs.readFile("input.txt", "utf-8", (err, data) => {
   if (err) return console.error(err);
-  const arr = data
-    .replace(/Game [0-9]: /g, "")
-    .replaceAll(";", ",")
-    .replaceAll(" ", "")
-    .split("\n");
-  console.log(`Part 1 Answer: ${partOne(arr, totalCubes)}`);
+  //removes spaces, Game #:, and creates an array
+  const arr = data.replace(/Game ([1-9]|[1-9][0-9]|100):/g, "").split("\n");
+
+  console.log(`Part 1 Answer: ${partOne(arr)}`);
   console.log(`Part 2 Answer: ${partTwo(arr)}`);
 });
 
-var totalCubes = {
-  red: 12,
-  green: 13,
-  blue: 14,
-};
-
 const playedGames = [];
 
-function partOne(games, totalCubes) {
-  var gameCount = 0;
+const maxRed = 12;
+const maxGreen = 13;
+const maxBlue = 14;
+
+function partOne(games) {
+  var gameId = 0;
+  var sum = 0;
   games.map((game) => {
-    var gameCubeCount = {
-      red: 0,
-      green: 0,
-      blue: 0,
-    };
-    console.log(game);
-    for (const key in gameCubeCount) {
-      game.split(",").forEach((cubes) => {
-        if (cubes.includes(key)) {
-          cubes = cubes.replace(key, "");
-          gameCubeCount[key] += parseInt(cubes);
+    gameId++;
+    var gameNotPossible = false;
+    game.split(";").forEach((subGame) => {
+      subGame.split(",").forEach((pull) => {
+        [tmp, count, color] = pull.replace("\r", "").split(" ");
+        if (color === "red" && count > maxRed) {
+          gameNotPossible = true;
+          return;
+        }
+        if (color === "green" && count > maxGreen) {
+          gameNotPossible = true;
+          return;
+        }
+        if (color === "blue" && count > maxBlue) {
+          gameNotPossible = true;
+          return;
         }
       });
+      if (gameNotPossible) {
+        return;
+      }
+    });
+
+    if (!gameNotPossible) {
+      sum += gameId;
     }
-    playedGames.push(gameCubeCount);
-    console.log(playedGames);
   });
+  return sum;
 }
 
 function partTwo(data) {
