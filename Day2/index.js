@@ -50,30 +50,26 @@ function partOne(games) {
 }
 
 function partTwo(games) {
-  var gameId = 0;
   var sum = 0;
+
   games.map((game) => {
-    gameId++;
-    var gameNotPossible = false;
-    game.split(";").forEach((subGame) => {
-      subGame.split(",").forEach((pull) => {
-        [tmp, count, color] = pull.replace("\r", "").split(" ");
-        if (color === "red" && count > maxRed) {
-          gameNotPossible = true;
-          return;
-        }
-        if (color === "green" && count > maxGreen) {
-          gameNotPossible = true;
-          return;
-        }
-        if (color === "blue" && count > maxBlue) {
-          gameNotPossible = true;
-          return;
+    const colors = {
+      red: 0,
+      green: 0,
+      blue: 0,
+    };
+    game
+      .replaceAll(";", ",")
+      .split(",")
+      .forEach((el) => {
+        const [count, color] = el.trim().split(" ");
+        if (parseInt(count) > colors[color]) {
+          colors[color] = count;
         }
       });
-      if (gameNotPossible) {
-        return;
-      }
-    });
+    console.log(colors);
+    var temp = colors.red * colors.green * colors.blue;
+    sum += temp;
   });
+  return sum;
 }
