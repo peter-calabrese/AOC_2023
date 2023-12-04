@@ -67,7 +67,6 @@ function partTwo(games) {
           colors[color] = count;
         }
       });
-    console.log(colors);
     var temp = colors.red * colors.green * colors.blue;
     sum += temp;
   });
